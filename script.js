@@ -52,3 +52,42 @@ function aplicarOperador(a, b, op) {
     if (op === "*") return multiplicar(a, b);
     if (op === "/") return dividir(a, b);
 }
+
+function aPostfija(expresion) {
+    //TO DO
+    const salida = [];
+    return salida;
+}
+
+function evaluarPostfija(tokens) {
+    const pilaEvaluacion = [];
+
+    for (const token of tokens) {
+        if (typeof token === "number") {
+            pilaEvaluacion.push(token);
+        } else if (esOperador(token)) {
+            const b = pilaEvaluacion.pop();
+            const a = pilaEvaluacion.pop();
+            const parcial = aplicarOperador(a, b, token);
+            if (typeof parcial === "string") return parcial;
+            pilaEvaluacion.push(parcial);
+        }
+    }
+
+    return pilaEvaluacion[0];
+}
+
+function calcular() {
+    if (entradaActual === "") return;
+
+    const tokens = aPostfija(entradaActual);
+    const resultadoFinal = evaluarPostfija(tokens);
+
+    if (typeof resultadoFinal === "string") {
+        pantalla.textContent = resultadoFinal;
+        entradaActual = "";
+        resultado = 0;
+    } else {
+        mostrarResultado(resultadoFinal);
+    }
+}
