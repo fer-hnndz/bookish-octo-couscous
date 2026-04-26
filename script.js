@@ -36,3 +36,19 @@ function dividir(a, b) {
     return a / b;
 }
 
+function obtenerPrecedencia(op) {
+    if (op === "+" || op === "-") return 1;
+    if (op === "*" || op === "/") return 2;
+    return 0;
+}
+
+function esOperador(token) {
+    return ["+", "-", "*", "/"].includes(token);
+}
+
+function aplicarOperador(a, b, op) {
+    if (op === "+") return sumar(a, b);
+    if (op === "-") return restar(a, b);
+    if (op === "*") return multiplicar(a, b);
+    if (op === "/") return dividir(a, b);
+}
