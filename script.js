@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementsByTagName("canvas")[0];
+
+  if (!canvas) alert("No se encontró el canvas para el fondo de Matrix");
+  matrix(canvas, {
+    chars: ["0", "1"],
+    font_size: 16,
+  });
+});
+
 let resultado = 0;
 const pantalla = document.getElementById("result");
 let entradaActual = "";
