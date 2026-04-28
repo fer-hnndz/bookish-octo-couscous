@@ -42,7 +42,7 @@ function multiplicar(a, b) {
 }
 
 function dividir(a, b) {
-  if (b === 0) return "Error: No se puede dividir por cero";
+  if (b === 0) return "Err";
   return a / b;
 }
 
@@ -78,17 +78,29 @@ function aPostfija(expr) {
   const out = [];
 
   let hasParenthesesOpen = false;
-  for (let i = 0; i < expr.length; i++) {
-    const char = expr[i];
+
+  let buffer = "";
+  while (expr.length > 0) {
+    const char = expr[0];
+    expr = expr.slice(1);
+
     if (/\s/.test(char)) continue; // Ignorar espacios
 
-    if (/\d/.test(char)) out.push(parseFloat(char));
-    else if (char === "(") {
+    // * Verificacion de Numeros
+    console.debug("Processing char:", char, "Buffer:", buffer);
+    if (/\d/.test(char))
+      buffer += char; // Acumular dígitos
+    else {
+      if (buffer.length > 0) out.push(Number(buffer)); // Sacar el número acumulado
+      buffer = ""; // Reiniciar el buffer
+    }
+
+    // * Verificacion de Operadores y Parentesis
+    if (char === "(") {
       operatorsStack.push(char);
       hasParenthesesOpen = true;
     } else if (char === ")") {
-      if (!hasParenthesesOpen)
-        alert("Error: Paréntesis de cierre sin apertura");
+      if (!hasParenthesesOpen) alert("Err");
 
       // Sacar operadores hasta encontrar el "("
       while (
@@ -120,11 +132,13 @@ function aPostfija(expr) {
     }
   }
 
+  if (buffer.length > 0) out.push(Number(buffer)); // Sacar cualquier número restante
+
   // Sacar cualquier operador restante
   while (operatorsStack.length > 0) {
     const op = operatorsStack.pop();
     if (op === "(" || op === ")") {
-      alert("Error: Paréntesis sin cerrar");
+      alert("Err");
       return [];
     }
     out.push(op);
