@@ -63,6 +63,13 @@ function aplicarOperador(a, b, op) {
   if (op === "/") return dividir(a, b);
 }
 
+function borrarUltimo() {
+  if (entradaActual.length > 0) {
+    entradaActual = entradaActual.slice(0, -1);
+    pantalla.textContent = entradaActual || "0.0";
+  }
+}
+
 function aPostfija(expr) {
   const precedencia = {
     "(": 4,
